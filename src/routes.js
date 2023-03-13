@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { Database } from "./database.js";
+import { validateInput } from "./middleware/validate-input.js";
 import { buildRoutePath } from "./utils/build-route-path.js";
 
 const database = new Database();
@@ -10,7 +11,6 @@ export const routes = [
     path: buildRoutePath("/tasks"),
     handler: (request, response) => {
       const { search } = request.query;
-
       const users = database.select(
         "tasks",
         search
@@ -28,6 +28,8 @@ export const routes = [
     method: "POST",
     path: buildRoutePath("/tasks"),
     handler: (request, response) => {
+      validateInput(request, response);
+
       const { title, description } = request.body;
 
       database.insert("tasks", {
