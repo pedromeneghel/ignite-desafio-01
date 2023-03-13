@@ -58,6 +58,8 @@ export class Database {
     if (rowIndex > -1) {
       this.#database[table].splice(rowIndex, 1);
       this.#persist();
+    } else {
+      throw new Error("Task not found");
     }
   }
 
@@ -72,6 +74,8 @@ export class Database {
       taskToUpdate.updated_at = new Date();
 
       this.#database[table][rowIndex] = taskToUpdate;
+    } else {
+      throw new Error("Task not found");
     }
   }
 
@@ -86,6 +90,8 @@ export class Database {
 
       this.#database[table][rowIndex] = data;
       this.#persist();
+    } else {
+      throw new Error("Task not found");
     }
   }
 }

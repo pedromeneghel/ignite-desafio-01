@@ -47,9 +47,14 @@ export const routes = [
     handler: (request, response) => {
       const { id } = request.params;
 
-      database.delete("tasks", id);
-
-      return response.writeHead(204).end();
+      try {
+        database.delete("tasks", id);
+        return response.writeHead(204).end();
+      } catch (error) {
+        return response
+          .writeHead(404)
+          .end(JSON.stringify({ errorMessage: error.message }));
+      }
     },
   },
   {
@@ -59,9 +64,14 @@ export const routes = [
       const { title, description } = request.body;
       const { id } = request.params;
 
-      database.update("tasks", id, { title, description });
-
-      return response.writeHead(204).end();
+      try {
+        database.update("tasks", id, { title, description });
+        return response.writeHead(204).end();
+      } catch (error) {
+        return response
+          .writeHead(404)
+          .end(JSON.stringify({ errorMessage: error.message }));
+      }
     },
   },
   {
@@ -70,9 +80,14 @@ export const routes = [
     handler: (request, response) => {
       const { id } = request.params;
 
-      database.complete("tasks", id);
-
-      return response.writeHead(204).end();
+      try {
+        database.complete("tasks", id);
+        return response.writeHead(204).end();
+      } catch (error) {
+        return response
+          .writeHead(404)
+          .end(JSON.stringify({ errorMessage: error.message }));
+      }
     },
   },
 ];
